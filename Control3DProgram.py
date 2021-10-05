@@ -24,7 +24,7 @@ class GraphicsProgram3D:
         self.model_matrix = ModelMatrix()
 
         self.view_matrix = ViewMatrix()
-        self.view_matrix.look(Point(3, 3, 3), Point(0, 0, 0), Vector(0, 1, 1))
+        self.view_matrix.look(Point(0, 1, 0), Point(0, 0, 0), Vector(0, 1, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
@@ -52,7 +52,7 @@ class GraphicsProgram3D:
         self.white_background = False
 
     def update(self):
-        delta_time = self.clock.tick() / 1000.0
+        delta_time = self.clock.tick(60) / 1000.0
 
         self.angle += pi * delta_time
         # if angle > 2 * pi:
@@ -63,9 +63,9 @@ class GraphicsProgram3D:
         if self.S_key_down:
             self.view_matrix.slide(0, 0, 1 * delta_time)
         if self.A_key_down:
-            self.view_matrix.slide(-1 * delta_time, 0, 0)
-        if self.D_key_down:
             self.view_matrix.slide(1 * delta_time, 0, 0)
+        if self.D_key_down:
+            self.view_matrix.slide(-1 * delta_time, 0, 0)
 
         if self.T_key_down:
             self.fov -= 0.25 * delta_time
@@ -107,31 +107,37 @@ class GraphicsProgram3D:
 
         self.model_matrix.push_matrix()
         self.model_matrix.add_translation(3.0, 0.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        self.model_matrix.add_scale(3.0, 3.0, 3.0)
+        self.model_matrix.add_scale(1.0, 3.0, 3.0)
         self.shader.set_model_matrix(self.model_matrix.matrix)
         self.cube.draw(self.shader)
         self.model_matrix.pop_matrix()
-
-        self.shader.set_solid_color(0.0, 0.0, 1.0)
 
         self.model_matrix.push_matrix()
-        self.model_matrix.add_translation(0.0, 3.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        self.model_matrix.add_rotate_z(self.angle)
-        self.model_matrix.add_scale(0.2, 2.5, 1.5)
+        self.model_matrix.add_translation(0.0, 0.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+        self.model_matrix.add_scale(1.0, 3.0, 3.0)
         self.shader.set_model_matrix(self.model_matrix.matrix)
         self.cube.draw(self.shader)
         self.model_matrix.pop_matrix()
+        
 
-        self.shader.set_solid_color(1.0, 0.0, 1.0)
+        # self.model_matrix.push_matrix()
+        # self.model_matrix.add_translation(0.0, 3.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+        # self.model_matrix.add_rotate_z(self.angle)
+        # self.model_matrix.add_scale(0.2, 2.5, 1.5)
+        # self.shader.set_model_matrix(self.model_matrix.matrix)
+        # self.cube.draw(self.shader)
+        # self.model_matrix.pop_matrix()
 
-        self.model_matrix.push_matrix()
-        self.model_matrix.add_translation(0.0, 0.0, -3.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        self.model_matrix.add_rotate_x(self.angle * 0.4)
-        self.model_matrix.add_rotate_y(self.angle * 0.2453)
-        self.model_matrix.add_scale(0.5, 0.5, 0.5)
-        self.shader.set_model_matrix(self.model_matrix.matrix)
-        self.cube.draw(self.shader)
-        self.model_matrix.pop_matrix()
+        # self.shader.set_solid_color(1.0, 0.0, 1.0)
+
+        # self.model_matrix.push_matrix()
+        # self.model_matrix.add_translation(0.0, 0.0, -3.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+        # self.model_matrix.add_rotate_x(self.angle * 0.4)
+        # self.model_matrix.add_rotate_y(self.angle * 0.2453)
+        # self.model_matrix.add_scale(0.5, 0.5, 0.5)
+        # self.shader.set_model_matrix(self.model_matrix.matrix)
+        # self.cube.draw(self.shader)
+        # self.model_matrix.pop_matrix()
 
         # self.shader.set_solid_color(1.0, 1.0, 0.0)
 
