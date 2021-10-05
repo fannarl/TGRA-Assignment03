@@ -12,6 +12,8 @@ import time
 from Shaders import *
 from Matrices import *
 
+from maze import *
+
 class GraphicsProgram3D:
     def __init__(self):
 
@@ -26,6 +28,17 @@ class GraphicsProgram3D:
         self.shader.use()
 
         self.model_matrix = ModelMatrix()
+
+        self.grid = [[1,1,1,1,1,1,1,1,1,1],
+                     [1,0,0,0,0,0,0,0,0,1],
+                     [1,1,1,0,1,1,1,1,0,1],
+                     [1,0,1,0,1,0,1,1,0,1],
+                     [1,0,1,0,1,0,1,1,0,1],
+                     [1,0,1,2,1,0,0,2,0,1],
+                     [1,0,1,0,1,1,1,1,0,1],
+                     [1,0,1,0,1,0,0,1,0,1],
+                     [1,0,0,0,1,0,0,2,0,1],
+                     [1,0,1,1,1,1,1,1,1,1],]
 
         self.view_matrix = ViewMatrix()
         # self.view_matrix.look(Point(0, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
@@ -113,46 +126,24 @@ class GraphicsProgram3D:
 
         self.shader.set_solid_color(1.0, 1.0, 0.0)
 
-        self.model_matrix.push_matrix()
-        self.model_matrix.add_translation(3.0, 0.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        self.model_matrix.add_scale(1.0, 3.0, 3.0)
-        self.shader.set_model_matrix(self.model_matrix.matrix)
-        self.cube.draw(self.shader)
-        self.model_matrix.pop_matrix()
+        for i in range(len(self.grid)):
+                for x in range(len(self.grid[i])):
+                    if self.grid[i][x] == 1:
+                        self.model_matrix.push_matrix()
+                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_scale(1.0, 1.0, 3.0)
+                        self.shader.set_model_matrix(self.model_matrix.matrix)
+                        self.cube.draw(self.shader)
+                        self.model_matrix.pop_matrix()
+                    elif self.grid[i][x] == 2:
+                        self.model_matrix.push_matrix()
+                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_rotate_z(self.angle)
+                        self.model_matrix.add_scale(0.2, 1.0, 3.0)
+                        self.shader.set_model_matrix(self.model_matrix.matrix)
+                        self.cube.draw(self.shader)
+                        self.model_matrix.pop_matrix()
 
-        self.model_matrix.push_matrix()
-        self.model_matrix.add_translation(0.0, 0.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        self.model_matrix.add_scale(1.0, 3.0, 3.0)
-        self.shader.set_model_matrix(self.model_matrix.matrix)
-        self.cube.draw(self.shader)
-        self.model_matrix.pop_matrix()
-        
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_translation(0.0, 3.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        # self.model_matrix.add_rotate_z(self.angle)
-        # self.model_matrix.add_scale(0.2, 2.5, 1.5)
-        # self.shader.set_model_matrix(self.model_matrix.matrix)
-        # self.cube.draw(self.shader)
-        # self.model_matrix.pop_matrix()
-
-        # self.shader.set_solid_color(1.0, 0.0, 1.0)
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_translation(0.0, 0.0, -3.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        # self.model_matrix.add_rotate_x(self.angle * 0.4)
-        # self.model_matrix.add_rotate_y(self.angle * 0.2453)
-        # self.model_matrix.add_scale(0.5, 0.5, 0.5)
-        # self.shader.set_model_matrix(self.model_matrix.matrix)
-        # self.cube.draw(self.shader)
-        # self.model_matrix.pop_matrix()
-
-        # self.shader.set_solid_color(1.0, 1.0, 0.0)
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_rotate_z(self.angle)
-
-        # self.cube.set_vertices(self.shader)
 
         # for y in range(10):
         #     for x in range(10):
