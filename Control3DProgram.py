@@ -25,16 +25,16 @@ class GraphicsProgram3D:
 
         self.model_matrix = ModelMatrix()
 
-        self.grid = [[1,1,1,0,1,0,0,0,0,0],
-                     [0,0,0,0,1,0,0,0,0,0],
-                     [1,1,1,0,1,0,0,0,0,0],
-                     [0,0,0,0,1,0,0,0,0,0],
-                     [0,0,0,0,0,0,0,0,0,0],
-                     [0,0,0,0,0,0,0,0,0,0],
-                     [0,0,0,0,0,0,0,0,0,0],
-                     [0,0,0,0,0,0,0,0,0,0],
-                     [0,0,0,0,0,0,0,0,0,0],
-                     [0,0,0,0,0,0,0,0,0,0],]
+        self.grid = [[1,1,1,1,1,1,1,1,1,1],
+                     [1,0,0,0,0,0,0,0,0,1],
+                     [1,1,1,0,1,1,1,1,0,1],
+                     [1,0,1,0,1,0,1,1,0,1],
+                     [1,0,1,0,1,0,1,1,0,1],
+                     [1,0,1,2,1,0,0,2,0,1],
+                     [1,0,1,0,1,1,1,1,0,1],
+                     [1,0,1,0,1,0,0,1,0,1],
+                     [1,0,0,0,1,0,0,2,0,1],
+                     [1,0,1,1,1,1,1,1,1,1],]
 
         self.view_matrix = ViewMatrix()
         self.view_matrix.look(Point(0, 1, 0), Point(0, 0, 0), Vector(0, 1, 1))
@@ -124,6 +124,14 @@ class GraphicsProgram3D:
                         self.model_matrix.push_matrix()
                         self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
                         self.model_matrix.add_scale(1.0, 1.0, 3.0)
+                        self.shader.set_model_matrix(self.model_matrix.matrix)
+                        self.cube.draw(self.shader)
+                        self.model_matrix.pop_matrix()
+                    elif self.grid[i][x] == 2:
+                        self.model_matrix.push_matrix()
+                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_rotate_z(self.angle)
+                        self.model_matrix.add_scale(0.2, 1.0, 3.0)
                         self.shader.set_model_matrix(self.model_matrix.matrix)
                         self.cube.draw(self.shader)
                         self.model_matrix.pop_matrix()
