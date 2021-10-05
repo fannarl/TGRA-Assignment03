@@ -136,46 +136,6 @@ class GraphicsProgram3D:
                         self.cube.draw(self.shader)
                         self.model_matrix.pop_matrix()
 
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_translation(3.0, 0.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        # self.model_matrix.add_scale(1.0, 3.0, 3.0)
-        # self.shader.set_model_matrix(self.model_matrix.matrix)
-        # self.cube.draw(self.shader)
-        # self.model_matrix.pop_matrix()
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_translation(0.0, 0.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        # self.model_matrix.add_scale(1.0, 3.0, 3.0)
-        # self.shader.set_model_matrix(self.model_matrix.matrix)
-        # self.cube.draw(self.shader)
-        # self.model_matrix.pop_matrix()
-        
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_translation(0.0, 3.0, 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        # self.model_matrix.add_rotate_z(self.angle)
-        # self.model_matrix.add_scale(0.2, 2.5, 1.5)
-        # self.shader.set_model_matrix(self.model_matrix.matrix)
-        # self.cube.draw(self.shader)
-        # self.model_matrix.pop_matrix()
-
-        # self.shader.set_solid_color(1.0, 0.0, 1.0)
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_translation(0.0, 0.0, -3.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        # self.model_matrix.add_rotate_x(self.angle * 0.4)
-        # self.model_matrix.add_rotate_y(self.angle * 0.2453)
-        # self.model_matrix.add_scale(0.5, 0.5, 0.5)
-        # self.shader.set_model_matrix(self.model_matrix.matrix)
-        # self.cube.draw(self.shader)
-        # self.model_matrix.pop_matrix()
-
-        # self.shader.set_solid_color(1.0, 1.0, 0.0)
-
-        # self.model_matrix.push_matrix()
-        # self.model_matrix.add_rotate_z(self.angle)
-
-        # self.cube.set_vertices(self.shader)
 
         # for y in range(10):
         #     for x in range(10):
