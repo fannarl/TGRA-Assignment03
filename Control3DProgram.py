@@ -18,13 +18,17 @@ class GraphicsProgram3D:
         pygame.init() 
         pygame.display.set_mode((800,600), pygame.OPENGL|pygame.DOUBLEBUF)
 
+        # hide mouse and grab input
+        pygame.mouse.set_visible(False)
+        pygame.event.set_grab(True)
+
         self.shader = Shader3D()
         self.shader.use()
 
         self.model_matrix = ModelMatrix()
 
         self.view_matrix = ViewMatrix()
-        self.view_matrix.look(Point(0, 1, 0), Point(0, 0, 0), Vector(0, 1, 1))
+        # self.view_matrix.look(Point(0, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
@@ -39,6 +43,7 @@ class GraphicsProgram3D:
 
         self.angle = 0
 
+        self.mouseRel = Vector(0, 0, 0)
         self.UP_key_down = False  ## --- ADD CONTROLS FOR OTHER KEYS TO CONTROL THE CAMERA --- ##
         self.W_key_down = False
         self.S_key_down = False
@@ -53,6 +58,9 @@ class GraphicsProgram3D:
 
     def update(self):
         delta_time = self.clock.tick(60) / 1000.0
+
+        self.view_matrix.yaw(-self.mouseRel.x * 0.001)
+        self.view_matrix.pitch(-self.mouseRel.y * 0.001)
 
         self.angle += pi * delta_time
         # if angle > 2 * pi:
@@ -215,6 +223,11 @@ class GraphicsProgram3D:
                         self.Q_key_down = False
                     if event.key == K_e:
                         self.E_key_down = False
+
+            if pygame.mouse.get_focused():
+                v = pygame.mouse.get_rel()
+                self.mouseRel = Vector(v[0], v[1], 0)
+                # print(v)
             
             self.update()
             self.display()

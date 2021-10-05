@@ -140,6 +140,22 @@ class ViewMatrix:
         self.v = self.u * -s + self.v * c
         self.u = tmp_u
 
+    def pitch(self, angle):
+        c = cos(angle)
+        s = sin(angle)
+
+        tmp_v = self.v * c + self.n * s
+        self.n = self.v * -s + self.n * c
+        self.v = tmp_v
+
+    def yaw(self, angle):
+        c = cos(angle)
+        s = sin(angle)
+
+        tmp_u = self.u * c + self.n * s
+        self.n = self.u * -s + self.n * c
+        self.u = tmp_u
+
     def get_matrix(self):
         minusEye = Vector(-self.eye.x, -self.eye.y, -self.eye.z)
         return [self.u.x, self.u.y, self.u.z, minusEye.dot(self.u),
@@ -165,10 +181,10 @@ class ProjectionMatrix:
     ## MAKE OPERATION TO SET PERSPECTIVE PROJECTION (don't forget to set is_orthographic to False) ##
     # ---
 
-    def set_perspective(self, fovy, aspect, near, far):
+    def set_perspective(self, fov, aspect, near, far):
         self.near = near
         self.far = far
-        self.top = near * tan(fovy / 2)
+        self.top = near * tan(fov / 2)
         self.bottom = -self.top
         self.right = -self.top * aspect
         self.left = -self.right
