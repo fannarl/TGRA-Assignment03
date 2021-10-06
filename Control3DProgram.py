@@ -41,7 +41,7 @@ class GraphicsProgram3D:
                      [1,0,1,1,1,1,1,1,1,1],]
 
         self.view_matrix = ViewMatrix()
-        # self.view_matrix.look(Point(0, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
+        self.view_matrix.look(Point(10, 10, 0), Point(3, 3, 1), Vector(0, 0, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
@@ -66,6 +66,8 @@ class GraphicsProgram3D:
         self.G_key_down = False
         self.Q_key_down = False
         self.E_key_down = False
+        self.move_up = False
+        self.move_down = False
 
         self.white_background = False
 
@@ -80,13 +82,18 @@ class GraphicsProgram3D:
         #     angle -= (2 * pi)
 
         if self.W_key_down:
-            self.view_matrix.slide(0, 0, -1 * delta_time)
+            self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
-            self.view_matrix.slide(0, 0, 1 * delta_time)
+            self.view_matrix.slide(0, 0, 2 * delta_time)
         if self.A_key_down:
-            self.view_matrix.slide(1 * delta_time, 0, 0)
+            self.view_matrix.slide(2 * delta_time, 0, 0)
         if self.D_key_down:
-            self.view_matrix.slide(-1 * delta_time, 0, 0)
+            self.view_matrix.slide(-2 * delta_time, 0, 0)
+
+        if self.move_up:
+            self.view_matrix.slide(0, 2 * delta_time, 0)
+        if self.move_down:
+            self.view_matrix.slide(0, -2 * delta_time, 0)
 
         if self.T_key_down:
             self.fov -= 0.25 * delta_time
@@ -192,6 +199,10 @@ class GraphicsProgram3D:
                         self.Q_key_down = True
                     if event.key == K_e:
                         self.E_key_down = True
+                    if event.key == K_SPACE:
+                        self.move_up = True
+                    if event.key == K_LSHIFT:
+                        self.move_down = True
 
                 elif event.type == pygame.KEYUP:
                     if event.key == K_UP:
@@ -214,6 +225,10 @@ class GraphicsProgram3D:
                         self.Q_key_down = False
                     if event.key == K_e:
                         self.E_key_down = False
+                    if event.key == K_SPACE:
+                        self.move_up = False
+                    if event.key == K_LSHIFT:
+                        self.move_down = False
 
             if pygame.mouse.get_focused():
                 v = pygame.mouse.get_rel()
