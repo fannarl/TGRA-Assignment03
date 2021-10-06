@@ -78,11 +78,12 @@ class GraphicsProgram3D:
         self.view_matrix.add_pitch((-self.mouseRel.y * delta_time) / pi)
 
         self.angle += pi * delta_time
-        # if angle > 2 * pi:
-        #     angle -= (2 * pi)
+        if self.angle > 2 * pi:
+            self.angle -= (2 * pi)
 
         if self.W_key_down:
-            self.view_matrix.slide(0, 0, -2 * delta_time)
+            self.view_matrix.move(0, 0, -2 * delta_time)
+            # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
             self.view_matrix.slide(0, 0, 2 * delta_time)
         if self.A_key_down:

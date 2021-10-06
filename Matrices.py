@@ -134,6 +134,11 @@ class ViewMatrix:
     def slide(self, del_u, del_v, del_n):
         self.eye += self.u * del_u + self.v * del_v + self.n * del_n
 
+    def move(self, del_u, del_v, del_n):
+        temp_n = self.n
+        temp_n.y = 0
+        self.eye += self.u * del_u + self.v * del_v + temp_n * del_n
+
     def roll(self, angle):
         c = cos(angle)
         s = sin(angle)
