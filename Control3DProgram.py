@@ -41,7 +41,7 @@ class GraphicsProgram3D:
                      [1,0,1,1,1,1,1,1,1,1],]
 
         self.view_matrix = ViewMatrix()
-        self.view_matrix.look(Point(10, 10, 0), Point(3, 3, 1), Vector(0, 0, 1))
+        self.view_matrix.look(Point(1, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
