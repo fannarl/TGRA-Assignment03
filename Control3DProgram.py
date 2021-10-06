@@ -74,8 +74,8 @@ class GraphicsProgram3D:
     def update(self):
         delta_time = self.clock.tick(60) / 1000.0
 
-        self.view_matrix.yaw(-self.mouseRel.x * 0.001)
-        self.view_matrix.pitch(-self.mouseRel.y * 0.001)
+        self.view_matrix.add_yaw((self.mouseRel.x * delta_time) / pi)
+        self.view_matrix.add_pitch((-self.mouseRel.y * delta_time) / pi)
 
         self.angle += pi * delta_time
         # if angle > 2 * pi:

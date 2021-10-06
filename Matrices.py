@@ -118,6 +118,8 @@ class ViewMatrix:
         self.u = Vector(1, 0, 0)
         self.v = Vector(0, 1, 0)
         self.n = Vector(0, 0, 1)
+        self.yaw_angle = 0
+        self.pitch_angle = 0
 
     ## MAKE OPERATIONS TO ADD LOOK, SLIDE, PITCH, YAW and ROLL ##
     # ---
@@ -132,13 +134,17 @@ class ViewMatrix:
     def slide(self, del_u, del_v, del_n):
         self.eye += self.u * del_u + self.v * del_v + self.n * del_n
 
-    def roll(self, angle):
+    def roll(self, angle, axis = True):
         c = cos(angle)
         s = sin(angle)
 
-        tmp_u = self.u * c + self.v * s
-        self.v = self.u * -s + self.v * c
-        self.u = tmp_u
+        if axis:
+            self.u = self.u * Vector(c, -s, 0)
+            self.v = self.v + Vector(s, c, 0)
+        else:
+            tmp_u = self.u * c + self.v * s
+            self.v = self.u * -s + self.v * c
+            self.u = tmp_u
 
     def pitch(self, angle):
         c = cos(angle)
@@ -148,7 +154,7 @@ class ViewMatrix:
         self.n = self.v * -s + self.n * c
         self.v = tmp_v
 
-    def yaw(self, angle):
+    def yaw(self, angle, axis = True):
         c = cos(angle)
         s = sin(angle)
 
@@ -156,12 +162,38 @@ class ViewMatrix:
         self.n = self.u * -s + self.n * c
         self.u = tmp_u
 
-    def get_matrix(self):
+    def get_matrix(self, fps = True):
+        if fps:
+            cYaw = cos(self.yaw_angle)
+            sYaw = sin(self.yaw_angle)
+            cPitch = cos(self.pitch_angle)
+            sPitch = sin(self.pitch_angle)
+
+            self.u = Vector(cYaw, 0 , -sYaw)
+            self.v = Vector(sYaw * sPitch, cPitch, cYaw * sPitch)
+            self.n = Vector(sYaw * cPitch, -sPitch, cPitch * cYaw)
+
         minusEye = Vector(-self.eye.x, -self.eye.y, -self.eye.z)
         return [self.u.x, self.u.y, self.u.z, minusEye.dot(self.u),
                 self.v.x, self.v.y, self.v.z, minusEye.dot(self.v),
                 self.n.x, self.n.y, self.n.z, minusEye.dot(self.n),
                 0,        0,        0,        1]
+
+    def add_yaw(self, n):
+        self.yaw_angle += n
+        if self.yaw_angle > 2 * pi:
+            self.yaw_angle = self.yaw_angle - 2 * pi
+        if self.yaw_angle < 0:
+            self.yaw_angle = 2 * pi + self.yaw_angle
+        
+
+    def add_pitch(self, n):
+        self.pitch_angle += n
+        if self.pitch_angle > pi:
+            self.pitch_angle = pi
+        if self.pitch_angle < -pi:
+            self.pitch_angle = -pi
+
 
 
 # The ProjectionMatrix class builds transformations concerning
