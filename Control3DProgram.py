@@ -41,7 +41,7 @@ class GraphicsProgram3D:
                      [1,0,1,1,1,1,1,1,1,1],]
 
         self.view_matrix = ViewMatrix()
-        self.view_matrix.look(Point(1, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
+        self.view_matrix.look(Point(1, 0, 1), Point(3, 3, 1), Vector(0, 0, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
@@ -122,7 +122,7 @@ class GraphicsProgram3D:
 
         glViewport(0, 0, 800, 600)
 
-        self.projection_matrix.set_perspective(self.fov, 800 / 600, 0.5, 100)
+        self.projection_matrix.set_perspective(self.fov, 800 / 600, 0.1, 100)
         self.shader.set_projection_matrix(self.projection_matrix.get_matrix())
 
         self.shader.set_view_matrix(self.view_matrix.get_matrix())
@@ -137,16 +137,16 @@ class GraphicsProgram3D:
                 for x in range(len(self.grid[i])):
                     if self.grid[i][x] == 1:
                         self.model_matrix.push_matrix()
-                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-                        self.model_matrix.add_scale(1.0, 1.0, 3.0)
+                        self.model_matrix.add_translation(float(i), 0.0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_scale(1.0, 2.0, 1.0)
                         self.shader.set_model_matrix(self.model_matrix.matrix)
                         self.cube.draw(self.shader)
                         self.model_matrix.pop_matrix()
-                    elif self.grid[i][x] == 2:
+                    elif self.grid[i][x] == 2: 
                         self.model_matrix.push_matrix()
-                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-                        self.model_matrix.add_rotate_z(self.angle)
-                        self.model_matrix.add_scale(0.2, 1.0, 3.0)
+                        self.model_matrix.add_translation(float(i), 0.0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_rotate_y(self.angle)
+                        self.model_matrix.add_scale(0.2, 2.0, 1)
                         self.shader.set_model_matrix(self.model_matrix.matrix)
                         self.cube.draw(self.shader)
                         self.model_matrix.pop_matrix()
