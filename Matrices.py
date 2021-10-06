@@ -134,17 +134,13 @@ class ViewMatrix:
     def slide(self, del_u, del_v, del_n):
         self.eye += self.u * del_u + self.v * del_v + self.n * del_n
 
-    def roll(self, angle, axis = True):
+    def roll(self, angle):
         c = cos(angle)
         s = sin(angle)
 
-        if axis:
-            self.u = self.u * Vector(c, -s, 0)
-            self.v = self.v + Vector(s, c, 0)
-        else:
-            tmp_u = self.u * c + self.v * s
-            self.v = self.u * -s + self.v * c
-            self.u = tmp_u
+        tmp_u = self.u * c + self.v * s
+        self.v = self.u * -s + self.v * c
+        self.u = tmp_u
 
     def pitch(self, angle):
         c = cos(angle)
@@ -154,7 +150,7 @@ class ViewMatrix:
         self.n = self.v * -s + self.n * c
         self.v = tmp_v
 
-    def yaw(self, angle, axis = True):
+    def yaw(self, angle):
         c = cos(angle)
         s = sin(angle)
 
