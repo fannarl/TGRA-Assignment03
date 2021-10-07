@@ -51,6 +51,8 @@ class GraphicsProgram3D:
 
         self.cube = Cube()
 
+        # self.cube.calculateNormals()
+
         self.clock = pygame.time.Clock()
         self.clock.tick()
 
@@ -85,7 +87,8 @@ class GraphicsProgram3D:
             self.view_matrix.move(0, 0, -2 * delta_time)
             # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
-            self.view_matrix.slide(0, 0, 2 * delta_time)
+            self.view_matrix.move(0, 0, 2 * delta_time)
+            # self.view_matrix.slide(0, 0, 2 * delta_time)
         if self.A_key_down:
             self.view_matrix.slide(2 * delta_time, 0, 0)
         if self.D_key_down:

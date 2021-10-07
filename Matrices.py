@@ -136,6 +136,7 @@ class ViewMatrix:
 
     def move(self, del_u, del_v, del_n):
         temp_n = self.n.copy()
+        temp_u = self.u.copy()
         temp_n.y = 0
         temp_n.normalize()
         self.eye += self.u * del_u + self.v * del_v + temp_n * del_n

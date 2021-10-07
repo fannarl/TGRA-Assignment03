@@ -67,6 +67,13 @@ class Cube:
                        2, 3, 6,  6, 3, 7,  #right
                        0, 1, 4,  4, 1, 5,  #left
                        4, 5, 6,  4, 6, 7 ] #back
+        
+        self.normals = [ 0, 0, 0,  0, 1, 0,
+                         1, 1, 0,  1, 0, 0,
+                         1, 0, 1,  1, 1, 1,
+                         0, 1, 1,  0, 0, 1,
+                         1, 0, 1,  1, 1, 1,
+                         0, 1, 1,  0, 0, 1 ]
 
         self.position_array = [-0.5, -0.5, -0.5,
                             -0.5, 0.5, -0.5,
@@ -116,6 +123,20 @@ class Cube:
                             1.0, 0.0, 0.0,
                             1.0, 0.0, 0.0,
                             1.0, 0.0, 0.0]
+
+    def calculateNormals(self):
+        for i in range(0, len(self.inds), 3):
+            tri = [ self.inds[i], self.inds[i+1], self.inds[i+2] ]
+            v1 = Point(self.verts[tri[0]*3], self.verts[tri[0]*3 +1], self.verts[tri[0]*3 +2])
+            v2 = Point(self.verts[tri[1]*3], self.verts[tri[1]*3 +1], self.verts[tri[1]*3 +2])
+
+            normal = Vector(0, 0, 0)
+            normal.x = (v1.y*v2.z) - (v1.z-v2.y)
+            normal.y = - ( (v2.z * v1.x) - (v2.x * v1.z) )
+            normal.z = (v1.x*v2.y) - (v1.y*v2.x)
+
+            normal.normalize()
+            print(normal.x, normal.y, normal.z)
 
     def set_vertices(self, shader):
         shader.set_position_attribute(self.position_array)
