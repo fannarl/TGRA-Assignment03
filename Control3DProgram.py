@@ -87,7 +87,7 @@ class GraphicsProgram3D:
             self.view_matrix.move(0, 0, -2 * delta_time)
             # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
-            self.view_matrix.slide(0, 0, 2 * delta_time)
+            self.view_matrix.move(0, 0, 2 * delta_time)
         if self.A_key_down:
             self.view_matrix.slide(2 * delta_time, 0, 0)
         if self.D_key_down:
