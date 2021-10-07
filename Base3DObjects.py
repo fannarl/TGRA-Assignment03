@@ -151,7 +151,7 @@ class Cube:
         glEnableClientState(GL_VERTEX_ARRAY)
         glVertexPointer(3, GL_FLOAT, 0, self.verts)
 
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, self.inds);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, self.inds)
         
         # glDrawArrays(GL_TRIANGLE_FAN, 0, 4)
         # ## ADD CODE HERE ##

@@ -29,17 +29,6 @@ class GraphicsProgram3D:
 
         self.model_matrix = ModelMatrix()
 
-        self.grid = [[1,1,1,1,1,1,1,1,1,1],
-                     [1,0,0,0,0,0,0,0,0,1],
-                     [1,1,1,0,1,1,1,1,0,1],
-                     [1,0,1,0,1,0,1,1,0,1],
-                     [1,0,1,0,1,0,1,1,0,1],
-                     [1,0,1,2,1,0,0,2,0,1],
-                     [1,0,1,0,1,1,1,1,0,1],
-                     [1,0,1,0,1,0,0,1,0,1],
-                     [1,0,0,0,1,0,0,2,0,1],
-                     [1,0,1,1,1,1,1,1,1,1],]
-
         self.view_matrix = ViewMatrix()
         self.view_matrix.look(Point(1, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
 
@@ -50,6 +39,8 @@ class GraphicsProgram3D:
         self.shader.set_projection_matrix(self.projection_matrix.get_matrix())
 
         self.cube = Cube()
+
+        self.Maze = Maze()
 
         # self.cube.calculateNormals()
 
@@ -137,38 +128,7 @@ class GraphicsProgram3D:
 
         self.shader.set_solid_color(1.0, 1.0, 0.0)
 
-        for i in range(len(self.grid)):
-                for x in range(len(self.grid[i])):
-                    if self.grid[i][x] == 1:
-                        self.model_matrix.push_matrix()
-                        self.model_matrix.add_translation(float(i), 0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-                        self.model_matrix.add_scale(1.0, 2.0, 1.0)
-                        self.shader.set_model_matrix(self.model_matrix.matrix)
-                        self.cube.draw(self.shader)
-                        self.model_matrix.pop_matrix()
-                    elif self.grid[i][x] == 2:
-                        self.model_matrix.push_matrix()
-                        self.model_matrix.add_translation(float(i), 0.0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-                        self.model_matrix.add_rotate_y(self.angle)
-                        self.model_matrix.add_scale(0.2, 2.0, 1.0)
-                        self.shader.set_model_matrix(self.model_matrix.matrix)
-                        self.cube.draw(self.shader)
-                        self.model_matrix.pop_matrix()
-
-
-        # for y in range(10):
-        #     for x in range(10):
-        #         for z in range(10):
-        #             self.shader.set_solid_color(1.0, 0.0, 1.0)
-        #             self.model_matrix.push_matrix()
-        #             self.model_matrix.add_translation(-5.0 + x, -5.0 + y, 0.0 - z)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-        #             self.model_matrix.add_scale(0.8, 0.8, 0.8)
-        #             self.shader.set_model_matrix(self.model_matrix.matrix)
-        #             self.cube.draw(self.shader)
-        #             self.model_matrix.pop_matrix()
-
-        # self.model_matrix.pop_matrix()
-
+        self.Maze.maze(self.angle)
 
         pygame.display.flip()
 
