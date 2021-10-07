@@ -136,7 +136,7 @@ class GraphicsProgram3D:
 
         self.shader.set_solid_color(1.0, 1.0, 0.0)
 
-        self.maze.maze()
+        self.maze.maze(self.angle)
 
         # for i in range(len(self.grid)):
         #         for x in range(len(self.grid[i])):
