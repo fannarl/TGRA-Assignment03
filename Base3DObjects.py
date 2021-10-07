@@ -39,6 +39,9 @@ class Vector:
     def __len__(self):
         return sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
     
+    def copy(self):
+        return Vector(self.x, self.y, self.z)
+    
     def normalize(self):
         length = self.__len__()
         self.x /= length
@@ -53,6 +56,18 @@ class Vector:
 
 class Cube:
     def __init__(self):
+        self.verts = [ 0, 0, 0,  0, 1, 0,
+                       1, 1, 0,  1, 0, 0,
+                       1, 0, 1,  1, 1, 1,
+                       0, 1, 1,  0, 0, 1 ]
+
+        self.inds =  [ 0, 1, 2,  2, 3, 0,  #front
+                       0, 3, 4,  3, 4, 7,  #bottom
+                       1, 5, 6,  6, 1, 2,  #top
+                       2, 3, 6,  6, 3, 7,  #right
+                       0, 1, 4,  4, 1, 5,  #left
+                       4, 5, 6,  4, 6, 7 ] #back
+
         self.position_array = [-0.5, -0.5, -0.5,
                             -0.5, 0.5, -0.5,
                             0.5, 0.5, -0.5,
@@ -111,11 +126,16 @@ class Cube:
         # shader.set_position_attribute(self.position_array)
         # ## ADD CODE HERE ##
         # shader.set_normal_attribute(self.normal_array)
+
+        glEnableClientState(GL_VERTEX_ARRAY)
+        glVertexPointer(3, GL_FLOAT, 0, self.verts)
+
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, self.inds);
         
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4)
-        ## ADD CODE HERE ##
-        glDrawArrays(GL_TRIANGLE_FAN, 4, 4)
-        glDrawArrays(GL_TRIANGLE_FAN, 8, 4)
-        glDrawArrays(GL_TRIANGLE_FAN, 12, 4)
-        glDrawArrays(GL_TRIANGLE_FAN, 16, 4)
-        glDrawArrays(GL_TRIANGLE_FAN, 20, 4)
+        # glDrawArrays(GL_TRIANGLE_FAN, 0, 4)
+        # ## ADD CODE HERE ##
+        # glDrawArrays(GL_TRIANGLE_FAN, 4, 4)
+        # glDrawArrays(GL_TRIANGLE_FAN, 8, 4)
+        # glDrawArrays(GL_TRIANGLE_FAN, 12, 4)
+        # glDrawArrays(GL_TRIANGLE_FAN, 16, 4)
+        # glDrawArrays(GL_TRIANGLE_FAN, 20, 4)

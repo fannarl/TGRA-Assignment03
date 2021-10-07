@@ -78,11 +78,12 @@ class GraphicsProgram3D:
         self.view_matrix.add_pitch((-self.mouseRel.y * delta_time) / pi)
 
         self.angle += pi * delta_time
-        # if angle > 2 * pi:
-        #     angle -= (2 * pi)
+        if self.angle > 2 * pi:
+            self.angle -= (2 * pi)
 
         if self.W_key_down:
-            self.view_matrix.slide(0, 0, -2 * delta_time)
+            self.view_matrix.move(0, 0, -2 * delta_time)
+            # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
             self.view_matrix.slide(0, 0, 2 * delta_time)
         if self.A_key_down:
@@ -112,17 +113,17 @@ class GraphicsProgram3D:
     
 
     def display(self):
-        glEnable(GL_DEPTH_TEST)  ### --- NEED THIS FOR NORMAL 3D BUT MANY EFFECTS BETTER WITH glDisable(GL_DEPTH_TEST) ... try it! --- ###
+        glEnable(GL_DEPTH_TEST)
 
         if self.white_background:
             glClearColor(1.0, 1.0, 1.0, 1.0)
         else:
             glClearColor(0.0, 0.0, 0.0, 1.0)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)  ### --- YOU CAN ALSO CLEAR ONLY THE COLOR OR ONLY THE DEPTH --- ###
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
         glViewport(0, 0, 800, 600)
 
-        self.projection_matrix.set_perspective(self.fov, 800 / 600, 0.5, 100)
+        self.projection_matrix.set_perspective(self.fov, 800 / 600, 0.1, 50)
         self.shader.set_projection_matrix(self.projection_matrix.get_matrix())
 
         self.shader.set_view_matrix(self.view_matrix.get_matrix())
@@ -137,16 +138,16 @@ class GraphicsProgram3D:
                 for x in range(len(self.grid[i])):
                     if self.grid[i][x] == 1:
                         self.model_matrix.push_matrix()
-                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-                        self.model_matrix.add_scale(1.0, 1.0, 3.0)
+                        self.model_matrix.add_translation(float(i), 0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_scale(1.0, 2.0, 1.0)
                         self.shader.set_model_matrix(self.model_matrix.matrix)
                         self.cube.draw(self.shader)
                         self.model_matrix.pop_matrix()
                     elif self.grid[i][x] == 2:
                         self.model_matrix.push_matrix()
-                        self.model_matrix.add_translation(float(i), float(x), 0.0)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
-                        self.model_matrix.add_rotate_z(self.angle)
-                        self.model_matrix.add_scale(0.2, 1.0, 3.0)
+                        self.model_matrix.add_translation(float(i), 0.0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_rotate_y(self.angle)
+                        self.model_matrix.add_scale(0.2, 2.0, 1.0)
                         self.shader.set_model_matrix(self.model_matrix.matrix)
                         self.cube.draw(self.shader)
                         self.model_matrix.pop_matrix()
