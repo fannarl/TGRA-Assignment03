@@ -13,6 +13,7 @@ from Shaders import *
 from Matrices import *
 
 from maze import *
+from player import *
 
 class GraphicsProgram3D:
     def __init__(self):
@@ -73,6 +74,8 @@ class GraphicsProgram3D:
         self.angle += pi * delta_time
         if self.angle > 2 * pi:
             self.angle -= (2 * pi)
+
+        collisionCheck(self.Maze, self.view_matrix.eye)
 
         if self.W_key_down:
             self.view_matrix.move(0, 0, -2 * delta_time)

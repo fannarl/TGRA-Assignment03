@@ -6,6 +6,8 @@ from pygame.math import *
 from math import *
 from Base3DObjects import *
 
+from maze import *
+
 #2D test for which side of a 2D line a 2D point lies on
 def leftOf(a, b, p):
     # 3x3 determinant (can also think of this aprojecting onto 2D lines)
@@ -57,8 +59,8 @@ def collisionCheck(scene, pos):
             b = v3 - v2
             c = v1 - v3
 
-            planeX = a.normalized();
-            planeY = n.cross(a).normalized();
+            planeX = a.normalized()
+            planeY = n.cross(a).normalized()
 
             planePos2D = project2D(planeX, planeY, pos)
             poly_2D = [ project2D(planeX, planeY, v1), project2D(planeX, planeY, v2), project2D(planeX, planeY, v3) ]
@@ -75,6 +77,6 @@ def collisionCheck(scene, pos):
             if not flag: 
                 continue # no collision, not in plane bunderies
 
-            shiftDelta += n * ( collisionRadius - dtp );
+            shiftDelta += n * ( collisionRadius - dtp )
             ++numCollisions
 
