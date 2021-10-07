@@ -135,7 +135,8 @@ class ViewMatrix:
         self.eye += self.u * del_u + self.v * del_v + self.n * del_n
 
     def move(self, del_u, del_v, del_n):
-        temp_n = self.n
+        temp_n = self.n.copy()
+        temp_u = self.u.copy()
         temp_n.y = 0
         temp_n.normalize()
         self.eye += self.u * del_u + self.v * del_v + temp_n * del_n
@@ -187,7 +188,6 @@ class ViewMatrix:
             self.yaw_angle = self.yaw_angle - 2 * pi
         if self.yaw_angle < 0:
             self.yaw_angle = 2 * pi + self.yaw_angle
-        
 
     def add_pitch(self, n):
         self.pitch_angle += n
@@ -195,8 +195,6 @@ class ViewMatrix:
             self.pitch_angle = pi/2
         if self.pitch_angle < -pi/2:
             self.pitch_angle = -pi/2
-
-
 
 # The ProjectionMatrix class builds transformations concerning
 # the camera's "lens"

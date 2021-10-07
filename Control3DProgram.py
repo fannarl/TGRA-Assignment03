@@ -12,7 +12,7 @@ import time
 from Shaders import *
 from Matrices import *
 
-from Maze import *
+from maze import *
 
 class GraphicsProgram3D:
     def __init__(self):
@@ -29,10 +29,19 @@ class GraphicsProgram3D:
 
         self.model_matrix = ModelMatrix()
 
-        self.maze = Maze()
+        self.grid = [[1,1,1,1,1,1,1,1,1,1],
+                     [1,0,0,0,0,0,0,0,0,1],
+                     [1,1,1,0,1,1,1,1,0,1],
+                     [1,0,1,0,1,0,1,1,0,1],
+                     [1,0,1,0,1,0,1,1,0,1],
+                     [1,0,1,2,1,0,0,2,0,1],
+                     [1,0,1,0,1,1,1,1,0,1],
+                     [1,0,1,0,1,0,0,1,0,1],
+                     [1,0,0,0,1,0,0,2,0,1],
+                     [1,0,1,1,1,1,1,1,1,1],]
 
         self.view_matrix = ViewMatrix()
-        self.view_matrix.look(Point(1, 0, 1), Point(3, 3, 1), Vector(0, 0, 1))
+        self.view_matrix.look(Point(1, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
@@ -41,6 +50,8 @@ class GraphicsProgram3D:
         self.shader.set_projection_matrix(self.projection_matrix.get_matrix())
 
         self.cube = Cube()
+
+        # self.cube.calculateNormals()
 
         self.clock = pygame.time.Clock()
         self.clock.tick()
@@ -77,6 +88,7 @@ class GraphicsProgram3D:
             # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
             self.view_matrix.move(0, 0, 2 * delta_time)
+            # self.view_matrix.slide(0, 0, 2 * delta_time)
         if self.A_key_down:
             self.view_matrix.slide(2 * delta_time, 0, 0)
         if self.D_key_down:
@@ -104,17 +116,17 @@ class GraphicsProgram3D:
     
 
     def display(self):
-        glEnable(GL_DEPTH_TEST)  ### --- NEED THIS FOR NORMAL 3D BUT MANY EFFECTS BETTER WITH glDisable(GL_DEPTH_TEST) ... try it! --- ###
+        glEnable(GL_DEPTH_TEST)
 
         if self.white_background:
             glClearColor(1.0, 1.0, 1.0, 1.0)
         else:
             glClearColor(0.0, 0.0, 0.0, 1.0)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)  ### --- YOU CAN ALSO CLEAR ONLY THE COLOR OR ONLY THE DEPTH --- ###
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
         glViewport(0, 0, 800, 600)
 
-        self.projection_matrix.set_perspective(self.fov, 800 / 600, 0.1, 100)
+        self.projection_matrix.set_perspective(self.fov, 800 / 600, 0.1, 50)
         self.shader.set_projection_matrix(self.projection_matrix.get_matrix())
 
         self.shader.set_view_matrix(self.view_matrix.get_matrix())
@@ -125,7 +137,38 @@ class GraphicsProgram3D:
 
         self.shader.set_solid_color(1.0, 1.0, 0.0)
 
-        self.maze.maze(self.angle)
+        for i in range(len(self.grid)):
+                for x in range(len(self.grid[i])):
+                    if self.grid[i][x] == 1:
+                        self.model_matrix.push_matrix()
+                        self.model_matrix.add_translation(float(i), 0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_scale(1.0, 2.0, 1.0)
+                        self.shader.set_model_matrix(self.model_matrix.matrix)
+                        self.cube.draw(self.shader)
+                        self.model_matrix.pop_matrix()
+                    elif self.grid[i][x] == 2:
+                        self.model_matrix.push_matrix()
+                        self.model_matrix.add_translation(float(i), 0.0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+                        self.model_matrix.add_rotate_y(self.angle)
+                        self.model_matrix.add_scale(0.2, 2.0, 1.0)
+                        self.shader.set_model_matrix(self.model_matrix.matrix)
+                        self.cube.draw(self.shader)
+                        self.model_matrix.pop_matrix()
+
+
+        # for y in range(10):
+        #     for x in range(10):
+        #         for z in range(10):
+        #             self.shader.set_solid_color(1.0, 0.0, 1.0)
+        #             self.model_matrix.push_matrix()
+        #             self.model_matrix.add_translation(-5.0 + x, -5.0 + y, 0.0 - z)  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
+        #             self.model_matrix.add_scale(0.8, 0.8, 0.8)
+        #             self.shader.set_model_matrix(self.model_matrix.matrix)
+        #             self.cube.draw(self.shader)
+        #             self.model_matrix.pop_matrix()
+
+        # self.model_matrix.pop_matrix()
+
 
         pygame.display.flip()
 
