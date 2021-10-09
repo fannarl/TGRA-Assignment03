@@ -28,6 +28,23 @@ class Maze:
         self.cube           = Cube()
         self.flag           = True
         self.colliders      = []
+        self.generateCollisionMesh()
+
+    def generateCollisionMesh(self):
+
+        for y in self.grid:
+            for x in y:
+                if x != 0 or x != 2:
+                    continue
+
+                if self.grid[y+1][x] == 1:
+                    self.colliders.append([ Point(x, 0, y+1), Vector(0, 0, -1) ])
+                if self.grid[y-1][x] == 1:
+                    self.colliders.append([ Point(x, 0, y-1), Vector(0, 0, 1) ])
+                if self.grid[y][x+1] == 1:
+                    self.colliders.append([ Point(x+1, 0, y), Vector(-1, 0, 0) ])
+                if self.grid[y][x-1] == 1:
+                    self.colliders.append([ Point(x-1, 0, y), Vector(1, 0, 0) ])
 
     def drawCube(self, i, x):
         self.model_matrix.push_matrix()

@@ -49,6 +49,7 @@ class GraphicsProgram3D:
         self.clock.tick()
 
         self.angle = 0
+        self.timer = 0
 
         self.mouseRel = Vector(0, 0, 0)
         self.UP_key_down = False  ## --- ADD CONTROLS FOR OTHER KEYS TO CONTROL THE CAMERA --- ##
@@ -68,6 +69,11 @@ class GraphicsProgram3D:
     def update(self):
         delta_time = self.clock.tick(60) / 1000.0
 
+        self.timer += delta_time
+        if self.timer > 1: 
+            self.timer - 1
+            print(self.view_matrix.eye)
+
         self.view_matrix.add_yaw((self.mouseRel.x * delta_time) / pi)
         self.view_matrix.add_pitch((-self.mouseRel.y * delta_time) / pi)
 
@@ -75,7 +81,7 @@ class GraphicsProgram3D:
         if self.angle > 2 * pi:
             self.angle -= (2 * pi)
 
-        collisionCheck(self.Maze, self.view_matrix.eye)
+        collisionCheck(self.Maze.colliders, self.view_matrix.eye)
 
         if self.W_key_down:
             self.view_matrix.move(0, 0, -2 * delta_time)
