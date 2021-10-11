@@ -31,7 +31,7 @@ class GraphicsProgram3D:
         self.model_matrix = ModelMatrix()
 
         self.view_matrix = ViewMatrix()
-        self.view_matrix.look(Point(1, 1, 0), Point(3, 3, 1), Vector(0, 0, 1))
+        self.view_matrix.look(Point(1, 0, 1), Point(3, 3, 1), Vector(0, 0, 1))
 
         self.projection_matrix = ProjectionMatrix()
         # self.projection_matrix.set_orthographic(-2, 2, -2, 2, 0.5, 10)
@@ -75,13 +75,20 @@ class GraphicsProgram3D:
         if self.angle > 2 * pi:
             self.angle -= (2 * pi)
 
-        collisionCheck(self.Maze, self.view_matrix.eye)
-
+        # collisionCheck(self.Maze, self.view_matrix.eye)
         if self.W_key_down:
             self.view_matrix.move(0, 0, -2 * delta_time)
+            for i in range(len(self.Maze.colliders)):
+                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.5):
+                    self.view_matrix.move(0, 0, 2 * delta_time)
+                elif (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.6):
+                    self.view_matrix.move(0, 0, 2 * delta_time)
             # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
             self.view_matrix.move(0, 0, 2 * delta_time)
+            for i in range(len(self.Maze.colliders)):
+                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]) & (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.7):
+                    self.view_matrix.move(0, 0, -2 * delta_time)
             # self.view_matrix.slide(0, 0, 2 * delta_time)
         if self.A_key_down:
             self.view_matrix.slide(2 * delta_time, 0, 0)

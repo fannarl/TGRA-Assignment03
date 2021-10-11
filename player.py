@@ -79,4 +79,3 @@ def collisionCheck(scene, pos):
 
             shiftDelta += n * ( collisionRadius - dtp )
             ++numCollisions
-
