@@ -10,6 +10,7 @@ uniform mat4 u_projection_matrix;
 uniform vec4 u_eye_position;
 
 uniform vec4 u_light_position;
+uniform vec4 u_light_position_eye;
 
 // varying vec4 v_color;  //Leave the varying variables alone to begin with
 varying vec4 v_normal;

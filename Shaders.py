@@ -78,6 +78,9 @@ class Shader3D:
     def set_light_position(self, pos):
         glUniform4f(self.lightPosLoc, pos.x, pos.y, pos.z, 1.0)
 
+    def set_light_position_eye(self, pos):
+        glUniform4f(self.lightPosLoc, pos.x, pos.y, pos.z, 1.0)
+
     def set_light_diffuse(self, red, green, blue):
         glUniform4f(self.lightDiffuseLoc, red, green, blue, 1.0)
 

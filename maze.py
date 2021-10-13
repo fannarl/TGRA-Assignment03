@@ -14,11 +14,11 @@ class Maze:
     def __init__(self):
         self.grid = [[1,1,1,1,1,1,1,1,1,1],
                      [1,0,0,0,0,0,0,0,0,1],
-                     [1,1,1,0,1,1,1,1,0,1],
-                     [1,0,1,0,1,0,1,1,0,1],
-                     [1,0,1,0,1,0,1,1,0,1],
-                     [1,0,1,2,1,0,0,2,0,1],
-                     [1,0,1,0,1,1,1,1,0,1],
+                     [1,1,1,0,1,1,2,1,1,1],
+                     [1,0,1,0,1,0,0,0,0,1],
+                     [1,0,1,0,1,0,0,3,0,1],
+                     [1,0,1,2,1,0,0,0,0,1],
+                     [1,0,1,0,1,1,2,1,1,1],
                      [1,0,1,0,1,0,0,1,0,1],
                      [1,0,0,0,1,0,0,2,0,1],
                      [1,1,1,1,1,1,1,1,1,1],]
@@ -27,6 +27,7 @@ class Maze:
         self.model_matrix   = ModelMatrix()
         self.shader         = Shader3D()
         self.cube           = Cube()
+        self.sphere         = Sphere(2, 4)
         self.flag           = True
         self.colliders      = []
 
@@ -35,8 +36,6 @@ class Maze:
         self.model_matrix.add_translation(float(i), 0.0, float(x))  ### --- ADD PROPER TRANSFORMATION OPERATIONS --- ###
         self.model_matrix.add_scale(1.0, 2.0, 1.0)
         self.shader.set_model_matrix(self.model_matrix.matrix)
-        if self.flag:
-            self.colliders.append(self.model_matrix.matrix)
         self.cube.draw(self.shader)
         self.model_matrix.pop_matrix()
 
@@ -49,12 +48,12 @@ class Maze:
         self.cube.draw(self.shader)
         self.model_matrix.pop_matrix()
 
-    def drawDiamond(self, i, x, angle):
+    def drawSphere(self, i, x):
         self.model_matrix.push_matrix()
         self.model_matrix.add_translation(float(i), 0.0, float(x))
-        self.model_matrix.add_rotate_x(self.angle)
-        self.model_matrix.add_scale(0.2, 2.0, 0.5)
-        self.shader.set_model_matrix(self.model_matrix.matrix)
+        self.model_matrix.add_scale(0.5, 0.5, 0.5)
+        self.sphere.draw(self.shader)
+        self.model_matrix.pop_matrix()
 
     def maze(self, angle):
         self.angle = angle
@@ -62,6 +61,8 @@ class Maze:
                 for x in range(len(self.grid[i])):
                     if self.grid[i][x] == 1:
                         self.drawCube(i, x)
+                        if self.flag:
+                            self.colliders.append(self.model_matrix.matrix)
                         # if self.grid[i+1][x] == 1:
                         #     if self.drawn[i+1][x] == 0:
                         #         tmp_i = i+1
@@ -109,4 +110,6 @@ class Maze:
                         #     tmp_x = x-1
                         #     self.drawCube(i, tmp_x)
                         self.drawDoor(i, x, angle)
+                    elif self.grid[i][x] == 3:
+                        self.drawSphere(i, x)
         self.flag = False
