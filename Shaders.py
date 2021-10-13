@@ -45,9 +45,13 @@ class Shader3D:
         # self.colorLoc               = glGetUniformLocation(self.renderingProgramID, "u_color")
         self.eyePosLoc               = glGetUniformLocation(self.renderingProgramID, "u_eye_position")
 
-        self.lightPosLoc               = glGetUniformLocation(self.renderingProgramID, "u_light_position")
-        self.lightDiffuseLoc               = glGetUniformLocation(self.renderingProgramID, "u_light_diffuse")
-        self.lightSpecularLoc               = glGetUniformLocation(self.renderingProgramID, "u_light_specular")
+        self.lightPosLoc               = glGetUniformLocation(self.renderingProgramID, "u_point_light[0].position")
+        self.lightDiffuseLoc               = glGetUniformLocation(self.renderingProgramID, "u_point_light[0].diffuse")
+        self.lightSpecularLoc               = glGetUniformLocation(self.renderingProgramID, "u_point_light[0].specular")
+
+        self.lightPosLocEye               = glGetUniformLocation(self.renderingProgramID, "u_point_light[1].position")
+        self.lightDiffuseLocEye               = glGetUniformLocation(self.renderingProgramID, "u_point_light[1].diffuse")
+        self.lightSpecularLocEye               = glGetUniformLocation(self.renderingProgramID, "u_point_light[1].specular")
 
         self.materialDiffuseLoc               = glGetUniformLocation(self.renderingProgramID, "u_mat_diffuse")
         self.materialSpecularLoc               = glGetUniformLocation(self.renderingProgramID, "u_mat_specular")
@@ -73,25 +77,31 @@ class Shader3D:
     #     glUniform4f(self.colorLoc, red, green, blue, 1.0)
 
     def set_eye_position(self, pos):
-        glUniform4f(self.eyePosLoc, pos.x, pos.y, pos.z, 1.0)
+        glUniform3f(self.eyePosLoc, pos.x, pos.y, pos.z)
 
     def set_light_position(self, pos):
-        glUniform4f(self.lightPosLoc, pos.x, pos.y, pos.z, 1.0)
+        glUniform3f(self.lightPosLoc, pos.x, pos.y, pos.z)
 
     def set_light_position_eye(self, pos):
-        glUniform4f(self.lightPosLoc, pos.x, pos.y, pos.z, 1.0)
+        glUniform3f(self.lightPosLocEye, pos.x, pos.y, pos.z)
 
     def set_light_diffuse(self, red, green, blue):
-        glUniform4f(self.lightDiffuseLoc, red, green, blue, 1.0)
+        glUniform3f(self.lightDiffuseLoc, red, green, blue)
+
+    def set_light_diffuse_eye(self, red, green, blue):
+        glUniform3f(self.lightDiffuseLocEye, red, green, blue)
 
     def set_light_specular(self, red, green, blue):
-        glUniform4f(self.lightSpecularLoc, red, green, blue, 1.0)
+        glUniform3f(self.lightSpecularLoc, red, green, blue)
+
+    def set_light_specular_eye(self, red, green, blue):
+        glUniform3f(self.lightSpecularLocEye, red, green, blue)
 
     def set_material_diffuse(self, red, green, blue):
-        glUniform4f(self.materialDiffuseLoc, red, green, blue, 1.0)
+        glUniform3f(self.materialDiffuseLoc, red, green, blue)
 
     def set_material_specular(self, red, green, blue):
-        glUniform4f(self.materialSpecularLoc, red, green, blue, 1.0)
+        glUniform3f(self.materialSpecularLoc, red, green, blue)
 
     def set_material_shininess(self, shininess):
         glUniform1f(self.materialShininessLoc, shininess)

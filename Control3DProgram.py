@@ -152,13 +152,17 @@ class GraphicsProgram3D:
         self.shader.set_projection_matrix(self.projection_matrix.get_matrix())
 
         self.shader.set_view_matrix(self.view_matrix.get_matrix())
+        self.shader.set_eye_position(self.view_matrix.eye)
 
         # self.shader.set_light_position(Point(0.0, 10.0, 0.0))
-        self.shader.set_light_position(self.view_matrix.eye)
-        # self.shader.set_light_position(Point(0.0, 20 * sin(self.angle), 0.0))
+        self.shader.set_light_position_eye(self.view_matrix.eye)
+        self.shader.set_light_position(Point(0.0, 20 * sin(self.angle), 0.0))
         
         self.shader.set_light_diffuse(1.0, 1.0, 1.0)
-        self.shader.set_light_specular(1.0, 0.0, 1.0)
+        self.shader.set_light_specular(1.0, 1.0, 1.0)
+
+        self.shader.set_light_diffuse_eye(1.0, 1.0, 1.0)
+        self.shader.set_light_specular_eye(1.0, 1.0, 1.0)
 
         self.shader.set_material_specular(1.0, 1.0, 0.0)
         self.shader.set_material_shininess(25)
