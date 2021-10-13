@@ -46,6 +46,8 @@ class Maze:
         self.model_matrix.add_rotate_y(self.angle)
         self.model_matrix.add_scale(0.2, 2.0, 1)
         self.shader.set_model_matrix(self.model_matrix.matrix)
+        if self.flag:
+            self.colliders.append(self.model_matrix.matrix)
         self.cube.draw(self.shader)
         self.model_matrix.pop_matrix()
 

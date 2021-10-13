@@ -81,13 +81,13 @@ class GraphicsProgram3D:
             for i in range(len(self.Maze.colliders)):
                 if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.5):
                     self.view_matrix.move(0, 0, 2 * delta_time)
-                elif (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.6):
+                elif (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.5):
                     self.view_matrix.move(0, 0, 2 * delta_time)
             # self.view_matrix.slide(0, 0, -2 * delta_time)
         if self.S_key_down:
             self.view_matrix.move(0, 0, 2 * delta_time)
             for i in range(len(self.Maze.colliders)):
-                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.5):
+                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.6):
                     self.view_matrix.move(0, 0, -2 * delta_time)
                 elif (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.6):
                     self.view_matrix.move(0, 0, -2 * delta_time)
@@ -95,7 +95,7 @@ class GraphicsProgram3D:
         if self.A_key_down:
             self.view_matrix.slide(2 * delta_time, 0, 0)
             for i in range(len(self.Maze.colliders)):
-                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.5):
+                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.6):
                     self.view_matrix.slide(-2 * delta_time, 0, 0)
                 elif (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.6):
                     self.view_matrix.slide(-2 * delta_time, 0, 0)
@@ -103,7 +103,7 @@ class GraphicsProgram3D:
         if self.D_key_down:
             self.view_matrix.slide(-2 * delta_time, 0, 0)
             for i in range(len(self.Maze.colliders)):
-                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.5):
+                if (round(self.view_matrix.eye.x, 1) == self.Maze.colliders[i][3]+0.6):
                     self.view_matrix.slide(2 * delta_time, 0, 0)
                 elif (round(self.view_matrix.eye.z, 1) == self.Maze.colliders[i][11]+0.6):
                     self.view_matrix.slide(2 * delta_time, 0, 0)
