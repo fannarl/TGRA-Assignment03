@@ -23,7 +23,7 @@ def leftOf(a, b, p):
 def project2D(planeX, planeY, v):
     return Vector2(v.dot(planeX), v.dot(planeY))
 
-def fancyCollisionCheck(scene, pos):
+def collisionCheck(scene, pos):
     collisionRadius = 0.1
     collisionCounter = 0
 
@@ -79,6 +79,3 @@ def fancyCollisionCheck(scene, pos):
 
             shiftDelta += n * ( collisionRadius - dtp )
             ++numCollisions
-
-def collisionCheck(colliders, pos):
-    pass
