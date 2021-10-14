@@ -45,13 +45,13 @@ class Shader3D:
         # self.colorLoc               = glGetUniformLocation(self.renderingProgramID, "u_color")
         self.eyePosLoc               = glGetUniformLocation(self.renderingProgramID, "u_eye_position")
 
-        self.lightPosLoc               = glGetUniformLocation(self.renderingProgramID, "u_point_light[0].position")
-        self.lightDiffuseLoc               = glGetUniformLocation(self.renderingProgramID, "u_point_light[0].diffuse")
-        self.lightSpecularLoc               = glGetUniformLocation(self.renderingProgramID, "u_point_light[0].specular")
+        self.lightPosLoc               = glGetUniformLocation(self.renderingProgramID, "u_pointLights[0].position")
+        self.lightDiffuseLoc               = glGetUniformLocation(self.renderingProgramID, "u_pointLights[0].diffuse")
+        self.lightSpecularLoc               = glGetUniformLocation(self.renderingProgramID, "u_pointLights[0].specular")
 
-        self.lightPosLocEye               = glGetUniformLocation(self.renderingProgramID, "u_point_light[1].position")
-        self.lightDiffuseLocEye               = glGetUniformLocation(self.renderingProgramID, "u_point_light[1].diffuse")
-        self.lightSpecularLocEye               = glGetUniformLocation(self.renderingProgramID, "u_point_light[1].specular")
+        self.lightPosLocEye               = glGetUniformLocation(self.renderingProgramID, "u_pointLights[1].position")
+        self.lightDiffuseLocEye               = glGetUniformLocation(self.renderingProgramID, "u_pointLights[1].diffuse")
+        self.lightSpecularLocEye               = glGetUniformLocation(self.renderingProgramID, "u_pointLights[1].specular")
 
         self.materialDiffuseLoc               = glGetUniformLocation(self.renderingProgramID, "u_mat_diffuse")
         self.materialSpecularLoc               = glGetUniformLocation(self.renderingProgramID, "u_mat_specular")

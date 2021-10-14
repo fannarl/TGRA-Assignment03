@@ -158,20 +158,20 @@ class GraphicsProgram3D:
         self.shader.set_light_position_eye(self.view_matrix.eye)
         self.shader.set_light_position(Point(0.0, 20 * sin(self.angle), 0.0))
         
-        self.shader.set_light_diffuse(1.0, 1.0, 1.0)
-        self.shader.set_light_specular(1.0, 1.0, 1.0)
+        self.shader.set_light_diffuse(1.0, 0.0, 0.0)
+        self.shader.set_light_specular(1.0, 0.0, 0.0)
 
-        self.shader.set_light_diffuse_eye(1.0, 1.0, 1.0)
-        self.shader.set_light_specular_eye(1.0, 1.0, 1.0)
+        self.shader.set_light_diffuse_eye(0.0, 0.0, 1.0)
+        self.shader.set_light_specular_eye(0.0, 0.0, 1.0)
 
-        self.shader.set_material_specular(1.0, 1.0, 0.0)
+        self.shader.set_material_diffuse(1.0, 1.0, 0.0)
+        self.shader.set_material_specular(1.0, 1.0, 1.0)
         self.shader.set_material_shininess(25)
 
         self.model_matrix.load_identity()
 
         self.cube.set_vertices(self.shader)
 
-        self.shader.set_material_diffuse(1.0, 1.0, 0.0)
 
         # self.shader.set_solid_color(1.0, 1.0, 0.0)
 

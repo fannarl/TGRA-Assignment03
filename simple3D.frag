@@ -1,4 +1,3 @@
-#version 150
 // uniform vec4 u_light_diffuse;
 // uniform vec4 u_light_specular;
 struct PointLight {    
@@ -20,7 +19,7 @@ varying vec3 FragPos;
 varying vec3 Normal;
 
 uniform vec3 u_eye_position;
-uniform PointLight pointLights[2];
+uniform PointLight u_pointLights[2];
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
@@ -32,8 +31,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_mat_shininess);
     // attenuation
     float distance    = length(light.position - fragPos);
-    float attenuation = 1.0 / (1 + 0.09 * distance + 
-  			     0.032 * (distance * distance));    
+    float attenuation = 1.0 / (1.0 + 0.09 * distance + 0.032 * (distance * distance));    
     // combine results
     vec3 ambient  = vec3(0.2) * u_mat_diffuse;
     vec3 diffuse  = light.diffuse  * diff * u_mat_diffuse;
@@ -59,8 +57,8 @@ void main(void)
     vec3 result = vec3(0.0, 0.0, 0.0);
     // phase 2: point lights
     // for(int i = 0; i < 2; i++)
-    result += CalcPointLight(pointLights[0], norm, FragPos, viewDir);    
-    result += CalcPointLight(pointLights[1], norm, FragPos, viewDir);   
+    result += CalcPointLight(u_pointLights[0], norm, FragPos, viewDir);    
+    result += CalcPointLight(u_pointLights[1], norm, FragPos, viewDir);   
     // phase 3: spot light
     // result += CalcSpotLight(spotLight, norm, FragPos, viewDir);    
     

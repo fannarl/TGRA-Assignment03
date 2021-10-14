@@ -1,4 +1,3 @@
-#version 150
 
 attribute vec3 a_position;
 attribute vec3 a_normal;
@@ -13,7 +12,7 @@ uniform mat4 u_projection_matrix;
 void main()
 {
     FragPos = vec3(u_model_matrix * vec4(a_position, 1.0));
-    Normal = mat3(transpose(inverse(u_model_matrix))) * a_normal;  
+    Normal =  vec3(u_model_matrix * vec4(a_normal, 1.0));
     
     gl_Position = u_projection_matrix * u_view_matrix * vec4(FragPos, 1.0);
 }
